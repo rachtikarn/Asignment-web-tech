@@ -1,12 +1,14 @@
+const functions = require('firebase-functions');
+
 var express = require('express');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
 var firebase = require('firebase');
+var cors = require('cors');
 
-
-var member = [];
-
+var bears = [];
+app.use(cors())
 var config = {
     apiKey: "AIzaSyDKh1vaXiNDUVZlu1Slm69pwnX8zNsaLZ4",
     authDomain: "assignment-web-tech-fff2c.firebaseapp.com",
@@ -17,7 +19,10 @@ var config = {
   };
   firebase.initializeApp(config);
 
-router.route('/member')
+  exports.api = functions.https.onRequest(app)
+
+
+router.route('/bears')
     .post(function(req, res) {
         
         var database = firebase.database().ref('member/');
@@ -25,10 +30,10 @@ router.route('/member')
                 ID: req.body.Id,
                 NAME: req.body.Name
           });
-        res.json({ message: 'created!' });
+        res.json({ message: 'Bear created!' });
 });
 
-router.route('/member')
+router.route('/bears')
     .get(function(req, res) {
    // var id = req.params.id;
     var memberRef = firebase.database().ref('member/');
@@ -37,7 +42,7 @@ router.route('/member')
         });
 });
 
-router.route('/member/:id')
+router.route('/bears/:id')
     .get(function(req, res) {
         id = req.params.id;
         var member = firebase.database().ref('/member/' + id).once('value').then(function(snapshot) {
@@ -46,15 +51,15 @@ router.route('/member/:id')
           });
 });
 
-router.route('/member/:id')
+router.route('/bears/:id')
     .delete(function(req, res) {
     var delete_id = req.params.id;
     var member = firebase.database().ref('member/' + delete_id);
     member.remove();
-    res.send({ message: 'delete!' });
+    res.send({ message: 'Bear delete!' });
 });
 
-router.route('/member/:id')
+router.route('/bears/:id')
     .put(function(req, res) {
     var member_id = req.params.id;
     var update = {
