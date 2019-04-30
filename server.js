@@ -3,9 +3,10 @@ var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
 var firebase = require('firebase');
-
-
+var cors = require('cors');
+bodyParser = require('body-parser');
 var member = [];
+app.use(cors());
 
 var config = {
     apiKey: "AIzaSyDKh1vaXiNDUVZlu1Slm69pwnX8zNsaLZ4",
